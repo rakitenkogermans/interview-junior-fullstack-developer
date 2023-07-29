@@ -14,7 +14,7 @@ export class PageOptionsDto {
 
   @IsIn(['asc', 'desc'])
   @IsOptional()
-  sort = 'asc';
+  order = 'asc';
 
   @IsOptional()
   filter: string;
