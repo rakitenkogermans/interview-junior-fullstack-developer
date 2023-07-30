@@ -7,20 +7,54 @@
   font-family: Arial, sans-serif;
 }
 
-input[type="text"] {
+form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  flex-wrap: wrap;
+}
+
+form input, form select {
+  padding: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+input {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: 0.3s;
 }
 
-input[type="text"]:focus {
-  border-color: #4CAF50;
-  outline: none;
+form select {
+  width: 100px;
+  margin-left: 10px;
+}
+
+.form-label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  form input, form select {
+    margin-bottom: 10px;
+  }
 }
 
 .city-card {
@@ -51,4 +85,34 @@ li {
   width: 100%;
   margin: 20px 0;
   padding: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pagination button {
+  cursor: pointer;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #495057;
+  padding: 5px 10px;
+  margin-right: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #e9ecef;
+}
+
+.pagination button:disabled {
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background-color: #495057;
+  color: #fff;
 }

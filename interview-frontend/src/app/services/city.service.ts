@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { environment } from '../../environments/environment';
 import {PageOptionsDto} from "../models/page-options.dto";
+import {City} from "../models/city";
+import {GetCitiesResponseMetadata} from "../models/metadata";
+
+interface GetCitiesResponse {
+  data: City[],
+  metadata: GetCitiesResponseMetadata
+}
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +16,7 @@ import {PageOptionsDto} from "../models/page-options.dto";
 export class CityService {
   private baseURL: string = environment.apiUrl;
 
-  getCities(options: PageOptionsDto): Promise<any> {
-    return axios.get(`${this.baseURL}/cities`, { params: options });
+  getCities(options: PageOptionsDto) {
+    return axios.get<GetCitiesResponse>(`${this.baseURL}/cities`, { params: options });
   }
 }

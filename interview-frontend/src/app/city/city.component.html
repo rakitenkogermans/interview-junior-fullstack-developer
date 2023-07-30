@@ -1,24 +1,27 @@
 <form>
-  <input type="text" (keyup)="onKey(filter.value)" placeholder="Search..." [(ngModel)]="pageOptions.filter" name="search" #filter/>
+  <input type="text" (keyup)="onKey()" placeholder="Search..." [(ngModel)]="pageOptions.filter" name="search" />
 
-  <select [(ngModel)]="pageOptions.limit" (change)="getCities(pageOptions)" name="limit">
+  <label for="limit" class="form-label">Limit</label>
+  <select id="limit" [(ngModel)]="pageOptions.limit" (change)="getCities(pageOptions)" name="limit" class="form-control">
     <option [value]="5">5</option>
     <option [value]="10">10</option>
     <option [value]="20">20</option>
     <option [value]="50">50</option>
   </select>
 
-  <select [(ngModel)]="pageOptions.order" (change)="getCities(pageOptions)" name="order">
+  <label for="order" class="form-label">Order</label>
+  <select id="order" [(ngModel)]="pageOptions.order" (change)="getCities(pageOptions)" name="order" class="form-control">
     <option value="asc">Ascending</option>
     <option value="desc">Descending</option>
   </select>
 </form>
 
+
 <div *ngIf="!loading">
   <ul *ngFor="let city of cities" class="city-card">
     <li>
       <h2>{{city.cityName}}</h2>
-      <p>{{city.count}}</p>
+      <p>Count: {{city.count}}</p>
     </li>
   </ul>
 </div>
@@ -31,4 +34,15 @@
   <ul class="city-card-skeleton">
     <app-loader></app-loader>
   </ul>
+</div>
+
+<div class="pagination" *ngIf="!loading">
+  <button [disabled]="pageOptions.page === 1" (click)="setPage(1)">First</button>
+  <button [disabled]="pageOptions.page === 1" (click)="setPage(pageOptions.page - 1)">Previous</button>
+  <ng-container *ngFor="let page of getDisplayedPages()">
+    <button *ngIf="(page === 1 || page === pagesArray.length) || page === pageOptions.page - 1 || page === pageOptions.page || page === pageOptions.page + 1" [class.active]="page === pageOptions.page" (click)="setPage(page)">{{ page }}</button>
+    <span *ngIf="(page === pageOptions.page - 2 || page === pageOptions.page + 2) && page !== 1 && page !== pagesArray.length">...</span>
+  </ng-container>
+  <button [disabled]="pageOptions.page === pagesArray.length || pagesArray.length === 0" (click)="setPage(pageOptions.page + 1)">Next</button>
+  <button [disabled]="pageOptions.page === pagesArray.length || pagesArray.length === 0" (click)="setPage(pagesArray.length)">Last</button>
 </div>
