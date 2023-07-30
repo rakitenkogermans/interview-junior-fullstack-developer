@@ -1,0 +1,54 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+.city-card {
+  width: 100%;
+  background-color: #f9f9f9;
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.city-card h2 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.city-card p {
+  margin: 10px 0 0;
+  color: #666;
+}
+
+li {
+  list-style: none;
+}
+
+.city-card-skeleton {
+  width: 100%;
+  margin: 20px 0;
+  padding: 20px;
+}

@@ -1,0 +1,34 @@
+<form>
+  <input type="text" (keyup)="onKey(filter.value)" placeholder="Search..." [(ngModel)]="pageOptions.filter" name="search" #filter/>
+
+  <select [(ngModel)]="pageOptions.limit" (change)="getCities(pageOptions)" name="limit">
+    <option [value]="5">5</option>
+    <option [value]="10">10</option>
+    <option [value]="20">20</option>
+    <option [value]="50">50</option>
+  </select>
+
+  <select [(ngModel)]="pageOptions.order" (change)="getCities(pageOptions)" name="order">
+    <option value="asc">Ascending</option>
+    <option value="desc">Descending</option>
+  </select>
+</form>
+
+<div *ngIf="!loading">
+  <ul *ngFor="let city of cities" class="city-card">
+    <li>
+      <h2>{{city.cityName}}</h2>
+      <p>{{city.count}}</p>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="cities.length === 0 && pageOptions.filter && pageOptions.filter.trim().length > 0 && !loading && debounce !== null">
+  <p>No city was found!</p>
+</div>
+
+<div *ngIf="loading">
+  <ul class="city-card-skeleton">
+    <app-loader></app-loader>
+  </ul>
+</div>
