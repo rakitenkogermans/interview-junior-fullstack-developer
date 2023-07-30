@@ -5,14 +5,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import * as data from '../data/cities.json';
-import { City } from './interfaces/city.interface';
+import { City } from './interfaces/city';
 import { PageOptionsDto } from './dto/page-options.dto';
+import { GetCitiesResponse } from './interfaces/get-cities-response';
 
 @Injectable()
 export class CityService {
   private cities: City[] = data;
 
-  getCities(pageOptionsDto: PageOptionsDto): City[] {
+  getCities(pageOptionsDto: PageOptionsDto): GetCitiesResponse {
     const { page = 1, limit = 5, order, filter } = pageOptionsDto;
 
     if (page < 1 || limit < 1) {
@@ -37,7 +38,23 @@ export class CityService {
       );
     }
 
-    return cities.slice((page - 1) * limit, page * limit);
+    const itemCount = cities.length;
+    const pageCount = Math.ceil(itemCount / limit);
+    const hasPreviousPage = page > 1;
+    const hasNextPage = page < pageCount;
+
+    const metadata = {
+      page,
+      limit,
+      itemCount,
+      pageCount,
+      hasPreviousPage,
+      hasNextPage,
+    };
+
+    const resultCities = cities.slice((page - 1) * limit, page * limit);
+
+    return { data: resultCities, metadata };
   }
 
   getCity(name: string): City {

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CityService } from './city.service';
-import { City } from './interfaces/city.interface';
+import { City } from './interfaces/city';
 import { PageOptionsDto } from './dto/page-options.dto';
 import { NotFoundException } from '@nestjs/common';
 
@@ -28,12 +28,12 @@ describe('CityService', () => {
   describe('getCities', () => {
     it('should return the correct number of cities with default parameters', () => {
       const pageOptionsDto: PageOptionsDto = new PageOptionsDto();
-      expect(service.getCities(pageOptionsDto)).toHaveLength(3);
+      expect(service.getCities(pageOptionsDto).data).toHaveLength(3);
     });
 
     it('should return the correct number of cities with custom limit', () => {
       const pageOptionsDto = { page: 1, limit: 2 } as PageOptionsDto;
-      expect(service.getCities(pageOptionsDto)).toHaveLength(2);
+      expect(service.getCities(pageOptionsDto).data).toHaveLength(2);
     });
 
     it('should throw error when page is less than 1', () => {
@@ -49,22 +49,22 @@ describe('CityService', () => {
     it('should filter cities correctly', () => {
       const pageOptionsDto = { filter: 'Test1' } as PageOptionsDto;
       const cities = service.getCities(pageOptionsDto);
-      expect(cities).toHaveLength(1);
-      expect(cities[0].cityName).toEqual('Test1');
+      expect(cities.data).toHaveLength(1);
+      expect(cities.data[0].cityName).toEqual('Test1');
     });
 
     it('should order cities correctly in descending order', () => {
       const pageOptionsDto = { order: 'desc' } as PageOptionsDto;
       const cities = service.getCities(pageOptionsDto);
-      expect(cities[0].cityName).toEqual('Test3');
-      expect(cities[1].cityName).toEqual('Test2');
+      expect(cities.data[0].cityName).toEqual('Test3');
+      expect(cities.data[1].cityName).toEqual('Test2');
     });
 
     it('should order cities correctly in ascending order', () => {
       const pageOptionsDto = { order: 'asc' } as PageOptionsDto;
       const cities = service.getCities(pageOptionsDto);
-      expect(cities[0].cityName).toEqual('Test1');
-      expect(cities[1].cityName).toEqual('Test2');
+      expect(cities.data[0].cityName).toEqual('Test1');
+      expect(cities.data[1].cityName).toEqual('Test2');
     });
   });
 

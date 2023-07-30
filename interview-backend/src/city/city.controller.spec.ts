@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CityController } from './city.controller';
 import { CityService } from './city.service';
-import { City } from './interfaces/city.interface';
+import { City } from './interfaces/city';
 import { PageOptionsDto } from './dto/page-options.dto';
 import { NotFoundException } from '@nestjs/common';
 
@@ -24,15 +24,23 @@ describe('CityController', () => {
   describe('getCities', () => {
     it('should return an array of cities', async () => {
       const result: City[] = [{ uuid: 'id1', cityName: 'Test1', count: 1 }];
-      jest
-        .spyOn(CityService.prototype, 'getCities')
-        .mockImplementation(() => result);
+      jest.spyOn(CityService.prototype, 'getCities').mockImplementation(() => ({
+        data: result,
+        metadata: {
+          page: 1,
+          limit: 10,
+          hasNextPage: false,
+          hasPreviousPage: false,
+          pageCount: 1,
+          itemCount: 1,
+        },
+      }));
       const pageOptionsDto = {
         page: 1,
         limit: 10,
         order: 'asc',
       } as PageOptionsDto;
-      expect(controller.getCities(pageOptionsDto)).toBe(result);
+      expect(controller.getCities(pageOptionsDto).data).toBe(result);
     });
   });
 
